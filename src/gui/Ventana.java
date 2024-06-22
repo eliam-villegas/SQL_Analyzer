@@ -1,9 +1,20 @@
 package gui;
 
+import org.antlr.runtime.*;
+import org.antlr.v4.runtime.CharStreams;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import sql.*;
+
+import java.util.List;
 
 public class Ventana extends JFrame {
 
@@ -39,7 +50,12 @@ public class Ventana extends JFrame {
         JButton botonEvaluar = new JButton("Evaluar");
         JButton botonBorrar = new JButton("Borrar");
 
+
+
         opcionesConsulta.add(botonEvaluar,restricciones(0,0,1.0,0.05,1,1,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(5,5,20,5)));
+
+
+
         opcionesConsulta.add(botonBorrar,restricciones(0,0,1.0,0.05,1,1,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(5,100,20,5)));
 
         panelConsulta.add(opcionesConsulta,restricciones(0,2,1.0,0.05,1,1,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,20,5)));
@@ -60,7 +76,51 @@ public class Ventana extends JFrame {
 
         pp.add(panelResultado,restricciones(1,0,0.5,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH));
 
+        botonBorrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clearFields(campoTexto, areaRespuesta);
+            }
+        });
 
+        botonEvaluar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                analyzeSQL(campoTexto, areaRespuesta);
+            }
+        });
+
+    }
+
+    private void clearFields(JTextArea campoTexto, JTextArea areaRespuesta) {
+        campoTexto.setText("");
+        areaRespuesta.setText("");
+    }
+
+    private void analyzeSQL(JTextArea campoTexto, JTextArea areaRespuesta) {
+        String query = campoTexto.getText();
+        try {
+            SQLgrammarLexer lexer = new SQLgrammarLexer(CharStreams.fromString(query));
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            SQLgrammarParser parser = new SQLgrammarParser(tokens);
+
+
+            ErrorListener errorListener = new ErrorListener();
+            parser.removeErrorListeners();
+            parser.addErrorListener(errorListener);
+
+            ParseTree tree = parser.sql();
+            if (errorListener.hasErrors()) {
+                List<String> errors = errorListener.getErrors();
+                StringBuilder errorMessages = new StringBuilder();
+                for (String error : errors) {
+                    errorMessages.append(error).append("\n");
+                }
+                areaRespuesta.setText(errorMessages.toString());
+            } else {
+                areaRespuesta.setText(tree.toStringTree(parser));
+            }
+        } catch (Exception e) {
+            areaRespuesta.setText("Error: " + e.getMessage());
+        }
     }
 
     private GridBagConstraints restricciones(final int x,final int y,final double pesoX,final double pesoY,final int ancho,final int alto, final int anchor,final int fill){

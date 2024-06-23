@@ -55,6 +55,30 @@ public class SQLgrammarBaseListener implements SQLgrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterValores(SQLgrammarParser.ValoresContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValores(SQLgrammarParser.ValoresContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAsignaciones(SQLgrammarParser.AsignacionesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAsignaciones(SQLgrammarParser.AsignacionesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterComparacion(SQLgrammarParser.ComparacionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -122,6 +146,42 @@ public class SQLgrammarBaseListener implements SQLgrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOrderby(SQLgrammarParser.OrderbyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEliminacion(SQLgrammarParser.EliminacionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEliminacion(SQLgrammarParser.EliminacionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInsercion(SQLgrammarParser.InsercionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInsercion(SQLgrammarParser.InsercionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterActualizacion(SQLgrammarParser.ActualizacionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitActualizacion(SQLgrammarParser.ActualizacionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

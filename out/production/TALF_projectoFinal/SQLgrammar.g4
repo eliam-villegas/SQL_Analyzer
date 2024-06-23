@@ -13,7 +13,7 @@ WS : [ \t\n\r]+ -> skip; //ignorar saltos de espacio
 
 //reglas parser
 
-sql : declaracion EOF; //nos dice que una consulta sql puede ser una declaracion
+sql : declaracion ';' EOF; //nos dice que una consulta sql puede ser una declaracion
 
 declaracion: seleccion | eliminacion | insercion | actualizacion; //una declaracion puede ser varias cosas
 

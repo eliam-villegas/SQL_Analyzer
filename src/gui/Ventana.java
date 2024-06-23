@@ -40,7 +40,7 @@ public class Ventana extends JFrame {
         JLabel tituloConsulta = new JLabel("Consulta:");
         panelConsulta.add(tituloConsulta,restricciones(0,0,1.0,0.05,1,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH));
 
-        JTextArea campoTexto = new JTextArea();
+        JTextPane campoTexto = new JTextPane();
         JScrollPane scrollConsulta = new JScrollPane(campoTexto);
         panelConsulta.add(scrollConsulta,restricciones(0,1,1,1.0,1,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH));
 
@@ -69,7 +69,7 @@ public class Ventana extends JFrame {
         JLabel tituloResultado = new JLabel("Resultado de analisis.");
         panelResultado.add(tituloResultado,restricciones(0,0,1.0,0.05,1,1,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5)));
 
-        JTextArea areaRespuesta = new JTextArea();
+        JTextPane areaRespuesta = new JTextPane();
         areaRespuesta.setEditable(false);
         JScrollPane scrollRespuesta = new JScrollPane(areaRespuesta);
         panelResultado.add(scrollRespuesta,restricciones(0,1,1,1,1,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH));
@@ -90,12 +90,12 @@ public class Ventana extends JFrame {
 
     }
 
-    private void clearFields(JTextArea campoTexto, JTextArea areaRespuesta) {
+    private void clearFields(JTextPane campoTexto, JTextPane areaRespuesta) {
         campoTexto.setText("");
         areaRespuesta.setText("");
     }
 
-    private void analyzeSQL(JTextArea campoTexto, JTextArea areaRespuesta) {
+    private void analyzeSQL(JTextPane campoTexto, JTextPane areaRespuesta) {
         String query = campoTexto.getText();
         try {
             SQLgrammarLexer lexer = new SQLgrammarLexer(CharStreams.fromString(query));

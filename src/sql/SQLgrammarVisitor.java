@@ -31,6 +31,18 @@ public interface SQLgrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitColumnas(SQLgrammarParser.ColumnasContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#valores}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValores(SQLgrammarParser.ValoresContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#asignaciones}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAsignaciones(SQLgrammarParser.AsignacionesContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SQLgrammarParser#comparacion}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -66,4 +78,22 @@ public interface SQLgrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOrderby(SQLgrammarParser.OrderbyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#eliminacion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEliminacion(SQLgrammarParser.EliminacionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#insercion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInsercion(SQLgrammarParser.InsercionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#actualizacion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitActualizacion(SQLgrammarParser.ActualizacionContext ctx);
 }

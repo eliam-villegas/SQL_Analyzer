@@ -40,6 +40,26 @@ public interface SQLgrammarListener extends ParseTreeListener {
 	 */
 	void exitColumnas(SQLgrammarParser.ColumnasContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SQLgrammarParser#valores}.
+	 * @param ctx the parse tree
+	 */
+	void enterValores(SQLgrammarParser.ValoresContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLgrammarParser#valores}.
+	 * @param ctx the parse tree
+	 */
+	void exitValores(SQLgrammarParser.ValoresContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLgrammarParser#asignaciones}.
+	 * @param ctx the parse tree
+	 */
+	void enterAsignaciones(SQLgrammarParser.AsignacionesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLgrammarParser#asignaciones}.
+	 * @param ctx the parse tree
+	 */
+	void exitAsignaciones(SQLgrammarParser.AsignacionesContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SQLgrammarParser#comparacion}.
 	 * @param ctx the parse tree
 	 */
@@ -99,4 +119,34 @@ public interface SQLgrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOrderby(SQLgrammarParser.OrderbyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLgrammarParser#eliminacion}.
+	 * @param ctx the parse tree
+	 */
+	void enterEliminacion(SQLgrammarParser.EliminacionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLgrammarParser#eliminacion}.
+	 * @param ctx the parse tree
+	 */
+	void exitEliminacion(SQLgrammarParser.EliminacionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLgrammarParser#insercion}.
+	 * @param ctx the parse tree
+	 */
+	void enterInsercion(SQLgrammarParser.InsercionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLgrammarParser#insercion}.
+	 * @param ctx the parse tree
+	 */
+	void exitInsercion(SQLgrammarParser.InsercionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLgrammarParser#actualizacion}.
+	 * @param ctx the parse tree
+	 */
+	void enterActualizacion(SQLgrammarParser.ActualizacionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLgrammarParser#actualizacion}.
+	 * @param ctx the parse tree
+	 */
+	void exitActualizacion(SQLgrammarParser.ActualizacionContext ctx);
 }

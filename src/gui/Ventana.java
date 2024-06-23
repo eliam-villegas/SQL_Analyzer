@@ -6,6 +6,9 @@ import org.antlr.v4.runtime.CharStreams;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,15 +111,26 @@ public class Ventana extends JFrame {
             parser.addErrorListener(errorListener);
 
             ParseTree tree = parser.sql();
+
+            StyledDocument doc = areaRespuesta.getStyledDocument();
+
+            Style colorError = areaRespuesta.addStyle("colorError", null);
+            StyleConstants.setForeground(colorError, Color.RED);
+
+            Style colorCorrect = areaRespuesta.addStyle("colorCorrect", null);
+            StyleConstants.setForeground(colorCorrect, Color.GREEN);
+
+            areaRespuesta.setText("");
+
             if (errorListener.hasErrors()) {
                 List<String> errors = errorListener.getErrors();
                 StringBuilder errorMessages = new StringBuilder();
                 for (String error : errors) {
                     errorMessages.append(error).append("\n");
                 }
-                areaRespuesta.setText(errorMessages.toString());
+                doc.insertString(doc.getLength(),errorMessages.toString(),colorError);
             } else {
-                areaRespuesta.setText(tree.toStringTree(parser));
+                doc.insertString(doc.getLength(),"La consulta es CORRECTA.",colorCorrect);
             }
         } catch (Exception e) {
             areaRespuesta.setText("Error: " + e.getMessage());

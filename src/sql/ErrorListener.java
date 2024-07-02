@@ -1,9 +1,11 @@
 package sql;
 
 import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.misc.Interval;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +20,21 @@ public class ErrorListener extends BaseErrorListener {
                             int charPositionInLine,
                             String msg,
                             RecognitionException e) {
-        String input = ((Token) offendingSymbol).getTokenSource().getInputStream().toString();
+        Token token = (Token) offendingSymbol;
+        CharStream inputStream = token.getTokenSource().getInputStream();
+        String input = inputStream.getText(new Interval(0, inputStream.size() - 1));
         String[] lines = input.split("\n");
         String errorLine = lines[line - 1];
-        StringBuilder errorPointer = new StringBuilder();
-        for (int i = 0; i < charPositionInLine; i++) {
-            errorPointer.append(" ");
-        }
-        errorPointer.append("^^^");
 
-        String errorMsg = String.format("line %d:%d %s%n%s%n%s",
-                line, charPositionInLine, msg, errorLine, errorPointer.toString());
+        StringBuilder highlightedErrorLine = new StringBuilder();
+        highlightedErrorLine.append(errorLine, 0, charPositionInLine);
+        highlightedErrorLine.append("\"\"\"");  // Inicio
+        highlightedErrorLine.append(errorLine, charPositionInLine, charPositionInLine + token.getText().length());
+        highlightedErrorLine.append("\"\"\"");  // Fin
+        highlightedErrorLine.append(errorLine.substring(charPositionInLine + token.getText().length()));
+
+        String errorMsg = String.format("Error en la linea %d:%d %s%n%s",
+                line, charPositionInLine, msg, highlightedErrorLine.toString());
         errors.add(errorMsg);
     }
 

@@ -1,44 +1,90 @@
 grammar SQLgrammar;
 
-@header{
+@header {
 package sql;
 }
 
-//reglas lexer
+// Reglas Lexer
 
-INT: [0-9]+; //numeros
-ID: [a-zA-Z_][a-zA-Z_0-9]*;
-STRING: '\'' .*? '\'';
-WS : [ \t\n\r]+ -> skip; //ignorar saltos de espacio
+INT: [0-9]+; // Números enteros
+FLOAT: [0-9]+'.'[0-9]*; // Números de punto flotante
+ID: [a-zA-Z_][a-zA-Z_0-9]*; // Identificadores
+STRING: '\'' .*? '\''; // Cadenas de texto
+WS: [ \t\n\r]+ -> skip; // Ignorar espacios en blanco
 SEMICOLON: ';';
 
-//reglas parser
+// Reglas Parser
 
-sql : declaracion (EOF | SEMICOLON); //nos dice que una consulta sql puede ser una declaracion
+sql: declaracion (EOF | SEMICOLON); // Una consulta SQL puede ser una declaración
 
-declaracion: seleccion | eliminacion | insercion | actualizacion; //una declaracion puede ser varias cosas
+declaracion:
+    seleccion
+    | eliminacion
+    | insercion
+    | actualizacion
+    | creacionTabla
+    | borradoTabla
+    | creacionIndice
+    | borradoIndice
+    | definicionClave
+    ; // Una declaración puede ser varias cosas
 
-columnas : ID (',' ID)*; // una lista de IDs
+columnas: columnaAlias (',' columnaAlias)*; // Una lista de columnas con alias
 
-valores : expresion (',' expresion)*;
+columnaAlias: columna ('AS' ID)?; // Columna con alias opcional
 
-asignaciones: ID '=' expresion (',' ID '=' expresion)*;
+columna: ID ('.' ID)?; // Columna con posible referencia a tabla
 
-comparacion : '=' | '<' | '>' | '>=' | '<=' | '!=';
+valores: expresion (',' expresion)*; // Una lista de expresiones
 
-condicion : expresion comparacion expresion;
+asignaciones: ID '=' expresion (',' ID '=' expresion)*; // Asignaciones en UPDATE
 
-expresion : INT | ID | STRING;
+comparacion: '=' | '<' | '>' | '>=' | '<=' | '!=' | 'LIKE' | 'IN'; // Operadores de comparación
 
-seleccion : 'SELECT' ('*' | columnas) 'FROM' ID (where)? (orderby)?;
+condicion: expresion comparacion expresion | expresion 'BETWEEN' expresion 'AND' expresion | '(' condicion ')'; // Condiciones en WHERE
 
-where: 'WHERE' condicion;
+expresion: INT | FLOAT | ID | STRING | columna | funcionAgregado | '(' seleccion ')'; // Expresiones (agregando funciones de agregado y subconsultas)
 
-orderby : 'ORDER' 'BY' ID ('ASC'|'DESC')?;
+funcionAgregado: ('SUM' | 'AVG' | 'MIN' | 'MAX' | 'COUNT') '(' ('*' | columna) ')'; // Funciones de agregado
 
-eliminacion : 'DELETE' 'FROM' ID (where)?;
+seleccion: 'SELECT' ('DISTINCT')? ('*' | columnas) 'FROM' tabla (aliasTabla)? (join)* (where)? (groupby)? (having)? (orderby)? (limit)?; // Consulta SELECT con más opciones
 
-insercion : 'INSERT' 'INTO' ID '(' columnas ')' 'VALUES' '(' valores ')';
+aliasTabla: 'AS'? ID; // Alias para tablas
 
-actualizacion : 'UPDATE' ID 'SET' asignaciones (where)?;
+tabla: ID; // Tabla
 
+join: ('INNER' | 'LEFT' | 'RIGHT' | 'FULL')? 'JOIN' tabla (aliasTabla)? 'ON' condicion; // Soporte para JOIN
+
+where: 'WHERE' condicion; // Cláusula WHERE
+
+groupby: 'GROUP' 'BY' columnas; // Cláusula GROUP BY
+
+having: 'HAVING' condicion; // Cláusula HAVING
+
+orderby: 'ORDER' 'BY' columnas; // Cláusula ORDER BY
+
+limit: 'LIMIT' INT; // Cláusula LIMIT
+
+eliminacion: 'DELETE' 'FROM' tabla (where)?; // Consulta DELETE
+
+insercion: 'INSERT' 'INTO' tabla '(' columnas ')' 'VALUES' '(' valores ')'; // Consulta INSERT
+
+actualizacion: 'UPDATE' tabla 'SET' asignaciones (where)?; // Consulta UPDATE
+
+creacionTabla: 'CREATE' 'TABLE' tabla '(' definicionColumna (',' definicionColumna)* (',' constraintTabla)? ')'; // Creación de tablas
+
+borradoTabla: 'DROP' 'TABLE' tabla; // Borrado de tablas
+
+creacionIndice: 'CREATE' 'INDEX' ID 'ON' tabla '(' columnas ')'; // Creación de índices
+
+borradoIndice: 'DROP' 'INDEX' ID; // Borrado de índices
+
+definicionClave: 'ALTER' 'TABLE' tabla 'ADD' constraint; // Definición de claves
+
+definicionColumna: ID tipoDato (constraint)*; // Definición de columna en creación de tabla
+
+tipoDato: 'INT' | 'FLOAT' | 'VARCHAR' '(' INT ')' | 'BOOLEAN'; // Tipos de datos
+
+constraint: 'PRIMARY' 'KEY' | 'NOT' 'NULL' | 'UNIQUE' | 'CHECK' '(' condicion ')' | 'FOREIGN' 'KEY' '(' ID ')' 'REFERENCES' tabla '(' ID ')'; // Restricciones de columna
+
+constraintTabla: 'PRIMARY' 'KEY' '(' columnas ')' | 'FOREIGN' 'KEY' '(' columnas ')' 'REFERENCES' tabla '(' columnas ')'; // Restricciones a nivel de tabla

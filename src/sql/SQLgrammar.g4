@@ -10,10 +10,11 @@ INT: [0-9]+; //numeros
 ID: [a-zA-Z_][a-zA-Z_0-9]*;
 STRING: '\'' .*? '\'';
 WS : [ \t\n\r]+ -> skip; //ignorar saltos de espacio
+SEMICOLON: ';';
 
 //reglas parser
 
-sql : declaracion ';' EOF; //nos dice que una consulta sql puede ser una declaracion
+sql : declaracion (EOF | SEMICOLON); //nos dice que una consulta sql puede ser una declaracion
 
 declaracion: seleccion | eliminacion | insercion | actualizacion; //una declaracion puede ser varias cosas
 

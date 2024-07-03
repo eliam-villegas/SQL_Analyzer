@@ -96,4 +96,88 @@ public interface SQLgrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitActualizacion(SQLgrammarParser.ActualizacionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#createTable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateTable(SQLgrammarParser.CreateTableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#restriccion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRestriccion(SQLgrammarParser.RestriccionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#columna}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColumna(SQLgrammarParser.ColumnaContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#restriccionColumna}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRestriccionColumna(SQLgrammarParser.RestriccionColumnaContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#tipoDato}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTipoDato(SQLgrammarParser.TipoDatoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#dropTable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDropTable(SQLgrammarParser.DropTableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#alterTable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterTable(SQLgrammarParser.AlterTableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#alterAction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterAction(SQLgrammarParser.AlterActionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#createIndex}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateIndex(SQLgrammarParser.CreateIndexContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#createConstraint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateConstraint(SQLgrammarParser.CreateConstraintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#createView}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateView(SQLgrammarParser.CreateViewContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#createProcedure}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateProcedure(SQLgrammarParser.CreateProcedureContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#parametro}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParametro(SQLgrammarParser.ParametroContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLgrammarParser#callProcedure}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallProcedure(SQLgrammarParser.CallProcedureContext ctx);
 }

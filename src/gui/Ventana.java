@@ -117,8 +117,11 @@ public class Ventana extends JFrame {
             Style colorError = areaRespuesta.addStyle("colorError", null);
             StyleConstants.setForeground(colorError, Color.RED);
 
+            Style colorError2 = areaRespuesta.addStyle("colorError", null);
+            StyleConstants.setForeground(colorError2, new Color(139,0,0));
+
             Style colorCorrect = areaRespuesta.addStyle("colorCorrect", null);
-            StyleConstants.setForeground(colorCorrect, Color.GREEN);
+            StyleConstants.setForeground(colorCorrect, new Color(80,200,80));
 
             areaRespuesta.setText("");
 
@@ -126,11 +129,12 @@ public class Ventana extends JFrame {
                 List<String> errors = errorListener.getErrors();
                 StringBuilder errorMessages = new StringBuilder();
                 for (String error : errors) {
-                    errorMessages.append(error).append("\n");
+                    errorMessages.append(error).append("\n\n");
                 }
+                doc.insertString(doc.getLength(),"Errores Encontrados: \n",colorError2);
                 doc.insertString(doc.getLength(),errorMessages.toString(),colorError);
             } else {
-                doc.insertString(doc.getLength(),"La consulta es CORRECTA.",colorCorrect);
+                doc.insertString(doc.getLength(),"No se presentan ERRORES visibles en la consulta dada.",colorCorrect);
             }
         } catch (Exception e) {
             areaRespuesta.setText("Error: " + e.getMessage());
